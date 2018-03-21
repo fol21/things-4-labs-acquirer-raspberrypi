@@ -14,14 +14,13 @@ class MqttPublisher {
 
         this.host = program.host || config.host;
         this.port = parseInt(program.port || config.port);
-        this.allowExit = config.allowExit || true;
         this.topic = null;
     }
 
     publish(topic, message) {
         try {
-            if (self.client.connected) {
-                self.client.publish(topic, message)
+            if (this.client.connected) {
+                this.client.publish(topic, message)
             } else console.log('Unable to publish. No connection avaible.')
         } catch (err) {
             console.log(err);
@@ -52,17 +51,9 @@ class MqttPublisher {
             port: ${this.port} 
             topic: ${this.topic}`);
             
-            if (program.message) {
-                try {
-                    if (self.client.connected) {
-                        self.client.publish('test', 'Heello')
-                        self.client.subscribe('test');
-                    } else console.log('Unable to publish. No connection avaible.')
-                } catch (err) {
-                    console.log(err);
-                }
-      
-                if (self.allowExit) process.exit();
+            if (program.message) 
+            {
+              this.publish(program.topic, program.message);  
             }
         });
         this.client.on('message', (topic, message) => {console.log(topic + ' : ' + message)});

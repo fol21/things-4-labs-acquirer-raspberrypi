@@ -6,12 +6,10 @@ const conf = require('./resources/config.json');
 const client = new MqttPublisher(
     {
         host: conf.mqtt.host,
-        port: conf.mqtt.port
+        port: conf.mqtt.port,
     });
 
 client.init();
-
-console.log("done");
 
 // var mqtt = require('mqtt')
 // var client  = mqtt.connect({host:"localhost", port: 1883})
