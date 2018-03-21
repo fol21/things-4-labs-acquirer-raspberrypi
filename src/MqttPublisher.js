@@ -13,15 +13,15 @@ class MqttPublisher {
             .option('-p, --port <n>', 'Overrides pre-configure port', parseInt)
 
         this.host = program.host || config.host;
-        this.port = program.port || config.port
+        this.port = parseInt(program.port || config.port);
         this.allowExit = config.allowExit || true;
         this.topic = null;
     }
 
     publish(topic, message) {
         try {
-            if (this.client.connected) {
-                this.client.publish(topic, message)
+            if (self.client.connected) {
+                self.client.publish(topic, message)
             } else console.log('Unable to publish. No connection avaible.')
         } catch (err) {
             console.log(err);
@@ -39,12 +39,12 @@ class MqttPublisher {
             process.exit();
         }
 
-        
         this.client = mqtt.connect({
             host: this.host,
             port: this.port
         });
         
+        let self = this
         this.client.on('connect',
         () => {
             console.log(`Connected, Listening to:
@@ -53,10 +53,19 @@ class MqttPublisher {
             topic: ${this.topic}`);
             
             if (program.message) {
-                this.publish(this.topic, program.message);
-                if (this.allowExit) process.exit();
+                try {
+                    if (self.client.connected) {
+                        self.client.publish('test', 'Heello')
+                        self.client.subscribe('test');
+                    } else console.log('Unable to publish. No connection avaible.')
+                } catch (err) {
+                    console.log(err);
+                }
+      
+                if (self.allowExit) process.exit();
             }
         });
+        this.client.on('message', (topic, message) => {console.log(topic + ' : ' + message)});
     }
 }
 
