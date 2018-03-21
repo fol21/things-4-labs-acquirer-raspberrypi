@@ -1,0 +1,33 @@
+{
+  "name": "things-4-labs-acquirer-raspberrypi",
+  "version": "0.1.0",
+  "description": "t4l Publisher API for Raspberry pi ",
+  "main": "index.js",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fol21/things-4-labs-acquirer-raspberrypi.git"
+  },
+  "keywords": [
+    "t4l",
+    "things-4-labs",
+    "publisher"
+  ],
+  "author": "Fernando Lima <folivelima@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fol21/things-4-labs-acquirer-raspberrypi/issues"
+  },
+  "homepage": "https://github.com/fol21/things-4-labs-acquirer-raspberrypi#readme",
+  "dependencies": {
+    "commander": "^2.13.0",
+    "mqtt": "^2.15.1",
+    "onoff": "^1.1.9"
+  }
+}
