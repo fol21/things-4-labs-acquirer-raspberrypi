@@ -1,4 +1,4 @@
-const MqttPublisher = require('MqttPublisher') 
+const MqttPublisher = require('t4l-raspberrypi-publisher') 
 
 const conf = require('./resources/config.json');
 
