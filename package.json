@@ -1,5 +1,5 @@
 {
-  "name": "things-4-labs-acquirer-raspberrypi",
+  "name": "t4l-raspberrypi-publisher",
   "version": "0.1.0",
   "description": "t4l Publisher API for Raspberry pi ",
   "main": "index.js",
