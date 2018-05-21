@@ -77,8 +77,14 @@ class MqttPublisher {
         return this.streams[index];
     }
 
-
-    init() {
+    /**
+     * 
+     * 
+     * @param {Function} callback callback type of (void) : void
+     * @param {string} [streamName='continous'] 
+     * @memberof MqttPublisher
+     */
+    init(callback, streamName = 'continous') {
 
         this.program.parse(process.argv);
 
@@ -107,8 +113,9 @@ class MqttPublisher {
             topic: ${this.topic}`);
 
                 if (program.message) {
-                    this.publish(program.topic, program.message);
+                    this.publish(program.topic, program.message, streamName);
                 }
+                callback();
             });
         this.client.on('message', (topic, message) => {
             console.log(topic + ' : ' + message)

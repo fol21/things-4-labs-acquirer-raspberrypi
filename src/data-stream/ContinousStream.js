@@ -4,6 +4,6 @@ const continousStream = new DataStream('continous');
 
 continousStream.onMessage();
 
-continousStream.setProcess(()=>{})
+continousStream.setProcess(null)
 
 module.exports = continousStream;
