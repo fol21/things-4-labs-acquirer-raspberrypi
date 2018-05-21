@@ -1,5 +1,12 @@
 const mqtt = require('mqtt');
 const program = require('commander');
+const _ = require('lodash/array');
+
+const {
+    DataStream,
+    ContinousStream,
+    PeriodicStream
+} = require('./data-stream/index')
 
 class MqttPublisher {
     constructor(config = {}) {
@@ -17,19 +24,67 @@ class MqttPublisher {
         this.topic = null;
     }
 
-    publish(topic, message) {
+
+    /**
+     * 
+     * 
+     * @param {string} topic 
+     * @param {string} message 
+     * @param {string} [streamName='continous'] 
+     * @memberof MqttPublisher
+     */
+    publish(topic, message, streamName = 'continous') {
         try {
             if (this.client.connected) {
-                this.client.publish(topic, message)
+                this.client.publish(topic, this.findDataStream(streamName).send(message))
             } else console.log('Unable to publish. No connection avaible.')
         } catch (err) {
             console.log(err);
         }
     }
 
+    /**
+     * 
+     * 
+     * @param {DataStream} stream 
+     * @memberof MqttPublisher
+     */
+    addDataStream(stream) {
+        this.streams.push(stream)
+    }
+    /**
+     * 
+     * 
+     * @param {string} streamName 
+     * @memberof MqttPublisher
+     */
+    removeDataStream(streamName) {
+        _.remove(this.streams, (s) => {
+            return s.name == streamName;
+        });
+    }
+    /**
+     * 
+     * 
+     * @param {string} streamName 
+     * @returns {DataStream}
+     * @memberof MqttPublisher
+     */
+    findDataStream(streamName) {
+        let index = _.findIndex(this.streams, (s) => {
+            return s.name == streamName;
+        });
+        return this.streams[index];
+    }
+
+
     init() {
 
         this.program.parse(process.argv);
+
+        this.streams = [];
+        this.streams.push(ContinousStream);
+        this.streams.push(new PeriodicStream());
 
         if (program.topic) {
             this.topic = program.topic;
@@ -42,21 +97,22 @@ class MqttPublisher {
             host: this.host,
             port: this.port
         });
-        
+
         let self = this
         this.client.on('connect',
-        () => {
-            console.log(`Connected, Listening to:
+            () => {
+                console.log(`Connected, Listening to:
             host: ${this.host} 
             port: ${this.port} 
             topic: ${this.topic}`);
-            
-            if (program.message) 
-            {
-              this.publish(program.topic, program.message);  
-            }
+
+                if (program.message) {
+                    this.publish(program.topic, program.message);
+                }
+            });
+        this.client.on('message', (topic, message) => {
+            console.log(topic + ' : ' + message)
         });
-        this.client.on('message', (topic, message) => {console.log(topic + ' : ' + message)});
     }
 }
 

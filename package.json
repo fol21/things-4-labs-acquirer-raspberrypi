@@ -27,6 +27,7 @@
   "homepage": "https://github.com/fol21/things-4-labs-acquirer-raspberrypi#readme",
   "dependencies": {
     "commander": "^2.13.0",
+    "lodash": "^4.17.10",
     "mqtt": "^2.15.1",
     "onoff": "^1.1.9"
   }
