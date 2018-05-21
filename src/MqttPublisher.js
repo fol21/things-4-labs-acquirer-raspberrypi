@@ -84,7 +84,7 @@ class MqttPublisher {
      * @param {string} [streamName='continous'] 
      * @memberof MqttPublisher
      */
-    init(callback, streamName = 'continous') {
+    init(callback=null, streamName = 'continous') {
 
         this.program.parse(process.argv);
 
@@ -115,7 +115,7 @@ class MqttPublisher {
                 if (program.message) {
                     this.publish(program.topic, program.message, streamName);
                 }
-                callback();
+                if(callback) callback();
             });
         this.client.on('message', (topic, message) => {
             console.log(topic + ' : ' + message)
