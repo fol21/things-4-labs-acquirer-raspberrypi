@@ -7,9 +7,17 @@ const client = new MqttPublisher(
     {
         host: conf.mqtt.host,
         port: conf.mqtt.port,
+        topic : conf.mqtt.ds_topic
+
     });
 
-client.init();
+client.init('001').then(() =>
+{
+    client.findDataStream('periodic').Delay(5000);
+    client.publish('/001/stream:periodic','hello','periodic');
+});
+
+
 
 // var mqtt = require('mqtt')
 // var client  = mqtt.connect({host:"localhost", port: 1883})

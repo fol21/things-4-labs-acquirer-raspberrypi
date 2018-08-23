@@ -3,8 +3,10 @@ const DataStream = require('./DataStream');
 class PeriodicStream extends DataStream {
     
     
-    constructor() {
+    constructor(delay = 100) {
         super('periodic')
+        // Sets default delay to 100ms
+        this.configuration = {delay};   
     }
 
     /**
@@ -13,8 +15,19 @@ class PeriodicStream extends DataStream {
      * @param {number} threshold 
      * @memberof PeriodicStream
      */
-    setThreshold(threshold) {
+    Threshold(threshold) {
         super.threshold = threshold;
+    }
+
+    /**
+     * Set the Stream delay for delivering messages
+     * 
+     * @param {number} delay 
+     * @memberof PeriodicStream
+     */
+    Delay(delay)
+    {
+        this.configuration.delay = delay;
     }
 
     /**
@@ -23,25 +36,31 @@ class PeriodicStream extends DataStream {
      * @param {number} delay 
      * @memberof PeriodicStream
      */
-    onMessage(delay) {
-        super.onMessage({
-            delay: delay
-        })
+    onMessage(configuration) {
+        this.configuration = configuration;
     }
 
     /**
-     * Sends message in timed delays
+     * Sends async message in timed delays
      * 
      * @param {string} message 
      * @memberof PeriodicStream
      */
-    send(message) {
-        setTimeout(() => 
+    async send(message) {
+        let self = this;
+        let sender = new Promise((resolve) =>
         {
-            super.send(message,
-                () => {
-                });
-        }, this.configuration.delay)
+            setTimeout(() => 
+            {
+                resolve(self.validate(message));
+            }, self.configuration.delay)
+        });
+        try {
+            let message = await sender;
+            return message;
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 

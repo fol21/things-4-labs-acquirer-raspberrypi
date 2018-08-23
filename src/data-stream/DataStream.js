@@ -18,22 +18,6 @@ class DataStream {
      * @memberof DataStream
      */
     onMessage(configuration = null) {
-        this.configuration = configuration
-    }
-
-    /**
-     * 
-     * @callback streamProcess
-     */
-    
-    /**
-     * 
-     * 
-     * @param {streProcess} process 
-     * @memberof DataStream
-     */
-    setProcess(process) {
-        this.process = process;
     }
 
     /**
@@ -44,16 +28,22 @@ class DataStream {
      * @returns {string}
      * @memberof DataStream
      */
-    send(message, process = null) {
-
-        let ps = process || this.process;
-        if (ps) this.ps()
+    validate(message) {
 
         if (this.threshold != 0) {
             if (message.lenght > this.threshold) return "Message size is above allowed !";
             else return message;
         } else return message;
 
+    }
+    /**
+     * Async method to be implemented by a child of DataStream
+     * 
+     * @memberof DataStream
+     */
+    async send(message) {
+        console.log("Please Implement an async send method in your child of DataStream")
+        return message;
     }
 
 }

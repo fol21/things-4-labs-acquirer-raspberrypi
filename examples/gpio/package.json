@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "t4l-raspberrypi-publisher": "^0.1.0"
+    "t4l-raspberrypi-publisher": "^0.1.2"
   }
 }

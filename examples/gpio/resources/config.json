@@ -2,6 +2,7 @@
     "mqtt":
     {
         "host":"localhost",
-        "port":"1883"
+        "port":"1883",
+        "ds_topic":"/001/stream:continous"
     }
 }
