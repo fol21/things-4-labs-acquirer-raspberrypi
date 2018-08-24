@@ -1,6 +1,6 @@
 {
   "name": "t4l-raspberrypi-publisher",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "t4l Publisher API for Raspberry pi ",
   "main": "index.js",
   "directories": {
