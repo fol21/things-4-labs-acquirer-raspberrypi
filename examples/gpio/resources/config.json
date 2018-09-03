@@ -1,8 +1,26 @@
 {
-    "mqtt":
+    "dev":
     {
-        "host":"localhost",
-        "port":"1883",
-        "ds_topic":"/001/stream:continous"
+        "mqtt":
+        {
+            "host":"localhost",
+            "port":"1883",
+            "ds_topic":"/001/stream:periodic"
+        }
+    },
+    "homolog":
+    {
+        "mqtt":
+        {
+            "host":"152.92.155.5",
+            "port":"1883",
+            "ds_topic":"/001/stream:periodic"
+        },
+
+        "devices":[
+            "esp32",
+            "intel-xeon",
+            "intel-core-2-quad"
+        ]  
     }
 }

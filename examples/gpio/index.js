@@ -5,12 +5,13 @@ const conf = require('./resources/config.json');
 
 
 const client = new MqttPublisher({
-    host: conf.mqtt.host,
-    port: conf.mqtt.port,
-    topic: conf.mqtt.ds_topic
+    host: conf.homolog.mqtt.host,
+    port: conf.homolog.mqtt.port,
+    topic: conf.homolog.mqtt.ds_topic
 });
 
-let duration = moment().add(1,'m').diff(moment());
+// Add how long appp will run from now
+let duration = moment().add(10,'m').diff(moment());
 
 client.init('001').then(() => {
     client.findDataStream('periodic').Delay(1000);
@@ -35,8 +36,10 @@ async function collectSysInfo(client, millis, steps) {
             {
                 console.log(index);
             });
+            let payload = await si.cpuTemperature();
+            payload.device = "intel-xeon";
             client.publish('/001/stream:periodic',  
-                JSON.stringify(await si.cpuTemperature()), 
+                JSON.stringify(payload), 
                 'periodic');
         }
     } catch (error) {
