@@ -37,7 +37,7 @@ async function collectSysInfo(client, millis, steps) {
                 console.log(index);
             });
             let payload = await si.cpuTemperature();
-            payload.device = "intel-xeon";
+            payload.device = "intel-core-i7";
             client.publish('/001/stream:periodic',  
                 JSON.stringify(payload), 
                 'periodic');
