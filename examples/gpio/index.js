@@ -1,13 +1,18 @@
 const MqttPublisher = require('t4l-raspberrypi-publisher')
 const si = require('systeminformation');
 const moment = require('moment');;
-const conf = require('./resources/config.json');
+const conf = require('./resources/config.json').dev;
 
+const {
+    cpuTemperature,
+    cpuTemperatureSync,
+    systemInformations
+} = require('./src/SysInfo')
 
 const client = new MqttPublisher({
-    host: conf.homolog.mqtt.host,
-    port: conf.homolog.mqtt.port,
-    topic: conf.homolog.mqtt.ds_topic
+    host: conf.mqtt.host,
+    port: conf.mqtt.port,
+    topic: conf.mqtt.ds_topic
 });
 
 // Add how long appp will run from now
@@ -36,7 +41,8 @@ async function collectSysInfo(client, millis, steps) {
             {
                 console.log(index);
             });
-            let payload = await si.cpuTemperature();
+            //let payload = await si.cpuTemperature();
+            let payload = await systemInformations();
             payload.device = "intel-core-i7";
             client.publish('/001/stream:periodic',  
                 JSON.stringify(payload), 
