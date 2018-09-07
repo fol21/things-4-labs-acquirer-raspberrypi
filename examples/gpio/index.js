@@ -42,7 +42,7 @@ async function collectSysInfo(client, millis, steps) {
                 console.log(index);
             });
             //let payload = await si.cpuTemperature();
-            let payload = await systemInformations();
+            let payload = cpuTemperatureSync();
             payload.device = "intel-core-i7";
             client.publish('/001/stream:periodic',  
                 JSON.stringify(payload), 
