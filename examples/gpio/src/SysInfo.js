@@ -7,9 +7,9 @@ const si = require('systeminformation');
  * @returns 
  */
 function cpuTemperatureSync() {
-    try {
         let tempInfo = {};
         let result = [];
+    try {
         execSync('cat /sys/class/thermal/thermal_zone*/temp')
             .toString()
             .split('\n')
@@ -26,7 +26,13 @@ function cpuTemperatureSync() {
         return tempInfo;
 
     } catch (error) {
-        return null;
+	try{
+		tempInfo.main = parseFloat(execSync('sensors | grep "Core 0"').toString().match(/\d{1,}.\d{1,}(?!:\s{1,}\+)/g)[0]);
+		return tempInfo;
+        
+        return tempInfo;
+	} catch (error){return null}	
+
     }
 }
 /**

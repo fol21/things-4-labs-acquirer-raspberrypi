@@ -1,7 +1,7 @@
 const MqttPublisher = require('t4l-raspberrypi-publisher')
 const si = require('systeminformation');
 const moment = require('moment');;
-const conf = require('./resources/config.json').dev;
+const conf = require('./resources/config.json').homolog;
 
 const {
     cpuTemperature,
@@ -43,7 +43,7 @@ async function collectSysInfo(client, millis, steps) {
             });
             //let payload = await si.cpuTemperature();
             let payload = cpuTemperatureSync();
-            payload.device = "intel-core-i7";
+            payload.device = "intel-core-i7-950";
             client.publish('/001/stream:periodic',  
                 JSON.stringify(payload), 
                 'periodic');
